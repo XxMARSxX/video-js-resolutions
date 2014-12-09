@@ -30,27 +30,23 @@ videojs.plugin('resolutions', function(options) {
     // without killing the player or disposing of the tech
     stopStream: function(){
       switch(player.techName){
-      case "Html5":
+      case 'Html5':
         break;
-      case "Flash":
+      case 'Flash':
         player.tech.el_.vjs_stop();
         break;
       }
-
-      // this may cause flash or the native player to emit errors but
-      // they are harmless
-      player.src("");
     },
 
     // it is necessary to remove the sources from the DOM after
     // parsing them because otherwise the native player may be
     // inclined to stream both sources
     removeSources: function(el){
-      var videoEl = player.el_.getElementsByTagName("video")[0];
+      var videoEl = player.el_.getElementsByTagName('video')[0];
 
-      if (player.techName !== "Html5" || !videoEl) return;
+      if (player.techName !== 'Html5' || !videoEl) return;
 
-      var srcs = videoEl.getElementsByTagName("source");
+      var srcs = videoEl.getElementsByTagName('source');
       for(var i=0;i<srcs.length;i++){
         videoEl.removeChild(srcs[i]);
       }
@@ -101,7 +97,7 @@ videojs.plugin('resolutions', function(options) {
     //   ]
     // }
     bucketByTypes: function(sources){
-      return vjs.reduce(sources, function(init, val, i){
+      return vjs.reduce(sources, function(init, val){
         (init[val.type] = init[val.type] || []).push(val);
         return init;
       }, {}, player);
@@ -148,9 +144,9 @@ videojs.plugin('resolutions', function(options) {
       // even though we choose the best resolution for the user here, we
       // should remember the resolutions so that we can potentially
       // change resolution later
-      this.options_['sourceResolutions'] = sourcesByType[typeAndTech.type];
+      this.options_.sourceResolutions = sourcesByType[typeAndTech.type];
 
-      return this.selectResolution(this.options_['sourceResolutions']);
+      return this.selectResolution(this.options_.sourceResolutions);
     },
 
     // takes parsed sources and returns the most appropriate
@@ -276,6 +272,7 @@ videojs.plugin('resolutions', function(options) {
   //     "src": "http://some_video_url_sd"
   // }
   player.changeResolution = function(new_source){
+        debugger;
     // has the exact same source been chosen?
     if (this.cache_.src === new_source.src){
       this.trigger('resolutionchange');
@@ -295,7 +292,7 @@ videojs.plugin('resolutions', function(options) {
     // HTML5 tends to not recover from reloading the tech but it can
     // generally handle changing src.  Flash generally cannot handle
     // changing src but can reload its tech.
-    if (this.techName === "Html5"){
+    if (this.techName === 'Html5'){
       this.src(new_source.src);
     } else {
       this.loadTech(this.techName, {src: new_source.src});
@@ -373,7 +370,7 @@ videojs.plugin('resolutions', function(options) {
     if (e.target.className.match(/vjs-control-content/)) {
 
       // Toggle the 'touched' class
-      this[this.el_.className.match(/touched/) ? "removeClass" : "addClass"]("touched");
+      this[this.el_.className.match(/touched/) ? 'removeClass' : 'addClass']('touched');
     } else {
 
       // Remove the 'touched' class from all control bar buttons with menus to hide any already visible...
@@ -405,7 +402,7 @@ videojs.plugin('resolutions', function(options) {
     init: function(player, options, ready){
       ResolutionButton.call(this, player, options, ready);
       this.el_.setAttribute('aria-label','Resolutions Menu');
-      this.el_.setAttribute('id',"vjs-resolutions-button");
+      this.el_.setAttribute('id','vjs-resolutions-button');
     }
   });
 
