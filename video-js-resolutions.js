@@ -272,7 +272,6 @@ videojs.plugin('resolutions', function(options) {
   //     "src": "http://some_video_url_sd"
   // }
   player.changeResolution = function(new_source){
-        debugger;
     // has the exact same source been chosen?
     if (this.cache_.src === new_source.src){
       this.trigger('resolutionchange');
